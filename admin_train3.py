@@ -40,7 +40,7 @@ def neuralCreation(datos, results):
     tras = (numpy.array(datos)).transpose(1, 0)
     res = numpy.array(results)
     num_max = len(results)
-    return pyrenn.train_LM(tras, res, nn, verbose=True,k_max=200,E_stop=1e-5)
+    return pyrenn.train_LM(tras, res, nn, verbose=True,k_max=300,E_stop=1e-5)
     
 def agregar_recorrido():
     celda_recorrido = []

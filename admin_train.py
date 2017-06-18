@@ -16,7 +16,7 @@ Cont_Recorrido_Total = 0
 fin_global = []
 
 def conect():
-    conn_string ="host='127.0.0.1' port='5432' dbname='admingeso' user='postgres' password='root'"
+    conn_string ="host='127.0.0.1' port='5432' dbname='admingeso' user='postgres' password='0495'"
 
     print ("Conectando a: \n =>%s" % (conn_string) )
     conn = psycopg2.connect(conn_string)

@@ -26,10 +26,10 @@ def parser_time(dato):
     spliter = dato[2].split(' ')
     splitFecha = spliter[0].split('/')
     splitHora = spliter[1].split(':')
-    dia = int(splitFecha[0])/31
-    horaStand = (int(splitHora[0]))/(24)
-    minStand = (int(splitHora[1]))/(60)
-    segStand = (int(splitHora[2]))/60
+    dia = float(splitFecha[0])/31
+    horaStand = (float(splitHora[0]))/(24)
+    minStand = (float(splitHora[1]))/(60)
+    segStand = (float(splitHora[2]))/60
     datoStand = [dia,horaStand,minStand,segStand,dato[2]]
     #print (datoStand)
     return datoStand

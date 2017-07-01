@@ -214,11 +214,38 @@ def filtrarDatos(datos):
 def prepTrain(l_recorridos_filtrados):
     matriz = []
     salidas = []
+
+    #l_recorridos_filtrados es la lista con los recorridos filtrados, listos para ser ingresados a la red
+
+    #Reco tiene los siguientes parametros:
+    '''
+    reco[0] = recorrido de la ruta 
+    reco[1] = IDA o VUELTA de la ruta 
+    reco[2] = ID de la ruta (es la N ID ruta de dicha patente)
+    reco[3] = lista de listas de puntos latlong. Aqui van todos los puntos de dicho recorrido
+
+    '''
+
     for reco in l_recorridos_filtrados:
         #print reco
         dis = 0
+
+        #OJO: Se parte de 1 ya  que la recurrencia necesita de un punto anterior
         cont = 1
         for punto in reco[3]:
+
+            '''
+            Punto tiene los siguientes parametros:
+
+            punto[0] DIA 
+            punto[1] HORA 
+            punto[2] MINUTO
+            punto[3] SEGUNDO
+            punto[4] LAT , QUE ES IGUAL A reco[3][cont][4]
+            punto[5] LONG , QUE ES IGUAL A reco[3][cont][5]
+
+            '''
+
             if(cont<(len(reco[3])-1)):
                 dato = []
                 #print(punto[0])
@@ -232,27 +259,30 @@ def prepTrain(l_recorridos_filtrados):
 
 
 
-
+                #print cont
+                #print "-------ANTERIOR----------"
                 #POS ANTERIOR
                 dato.append(dis)
 
-                print dis
+                #print dis
 
                 #POS ACTUAL
-                print "-----------------"
-                print cont
-                print "VICENTY "+str(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(reco[3][cont][5],reco[3][cont][5])).meters)
-                print "VICENTY DIVIDIDO "+str(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(reco[3][cont][5],reco[3][cont][5])).meters/27000)
-                dis += vincenty((reco[3][cont-2][4],reco[3][cont-2][5]),(punto[4],punto[5])).meters/27000.0
+                #print "-------ACTUAL---------"
+                #print "VICENTY "+str(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(reco[3][cont][4],reco[3][cont][5])).meters)
+                #print "VICENTY DIVIDIDO "+str(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(reco[3][cont][4],reco[3][cont][5])).meters/27000)
+                
+                #VICENTY TOMA EL PUNTO ANTERIOR Y EL PUNTO ACTUAL PARA OBTENER CUANTOS METROS HAY, Y LOS DIVIDE POR 27K
+                dis += vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(reco[3][cont][4],reco[3][cont][5])).meters/27500
                 dato.append(dis)
 
-                print dis
+                #print dis
 
                 #dato.append(dis)
                 #dato.append(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(punto[4],punto[5])).meters/27000.0)
                 matriz.append(dato)
                 #print (dt.seconds)
                 result = (dt.seconds)
+                print result
                 salidas.append(result)
                 #if(dis > 28000):
                     #print dis

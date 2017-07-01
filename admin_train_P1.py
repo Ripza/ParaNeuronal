@@ -351,8 +351,8 @@ def main():
     fin_global = fin[:]
     print ("Prepare")
     print("Salidas: "+str(fin[1][0])+" Entradas:"+str(fin[0][0]))
-    #nn = neuralCreation(fin[0], fin[1])
-    #pyrenn.saveNN(nn,'rnn_create.csv')
+    nn = neuralCreation(fin[0], fin[1])
+    pyrenn.saveNN(nn,'rnn_create.csv')
 if __name__ == "__main__":
     main()
     

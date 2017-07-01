@@ -205,17 +205,17 @@ def filtrarDatos(datos):
         cantidad_rutas += 1
         pos_ruta += 1
 
-    promedio_km = promedio_km / float(cantidad_rutas)
-    print "Promedio de km de las rutas "+ str(promedio_km) 
-    print ("Cantida de rutas detectadas sobre 27K = "+ str(cantidad_27))
-    print ("Cantida de rutas detectadas bajo 26K = "+ str(cantidad_24))
+    #promedio_km = promedio_km / float(cantidad_rutas)
+    #print "Promedio de km de las rutas "+ str(promedio_km) 
+    #print ("Cantida de rutas detectadas sobre 27K = "+ str(cantidad_27))
+    #print ("Cantida de rutas detectadas bajo 26K = "+ str(cantidad_24))
     return datos
 
 def prepTrain(l_recorridos_filtrados):
     matriz = []
     salidas = []
     for reco in l_recorridos_filtrados:
-        print reco
+        #print reco
         dis = 0
         cont = 1
         for punto in reco[3]:
@@ -229,18 +229,36 @@ def prepTrain(l_recorridos_filtrados):
                 dato.append(punto[2])
                 dato.append(punto[3])
                 dato.append(punto[4])
+
+
+
+
+                #POS ANTERIOR
                 dato.append(dis)
-                dato.append(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(punto[4],punto[5])).meters/27000.0)
+
+                print dis
+
+                #POS ACTUAL
+                print "-----------------"
+                print cont
+                print "VICENTY "+str(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(reco[3][cont][5],reco[3][cont][5])).meters)
+                print "VICENTY DIVIDIDO "+str(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(reco[3][cont][5],reco[3][cont][5])).meters/27000)
+                dis += vincenty((reco[3][cont-2][4],reco[3][cont-2][5]),(punto[4],punto[5])).meters/27000.0
+                dato.append(dis)
+
+                print dis
+
+                #dato.append(dis)
+                #dato.append(vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(punto[4],punto[5])).meters/27000.0)
                 matriz.append(dato)
-                dis += vincenty((reco[3][cont-1][4],reco[3][cont-1][5]),(punto[4],punto[5])).meters/27000.0
                 #print (dt.seconds)
                 result = (dt.seconds)
-                print dato
                 salidas.append(result)
                 #if(dis > 28000):
                     #print dis
                     #print "DETECTADA RUTA CON SOBRE 28KM DE DISTANCIA"
             cont += 1
+        print "---------- FIN"
     return [matriz,salidas]
 
 def leer_csv():

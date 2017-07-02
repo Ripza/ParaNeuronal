@@ -37,11 +37,11 @@ def parser_time(dato):
     return datoStand
 
 def neuralCreation(datos, results):
-    nn = pyrenn.CreateNN([6,10,10,5,1],dIntern=[1])
+    nn = pyrenn.CreateNN([6,8,8,1],dIn=[1])
     tras = (numpy.array(datos)).transpose(1, 0)
     res = numpy.array(results)
     num_max = len(results)
-    return pyrenn.train_LM(tras, res, nn, verbose=True,k_max=300,E_stop=1e-5)
+    return pyrenn.train_LM(tras, res, nn, verbose=True,k_max=100,E_stop=1e-5)
     
 def agregar_recorrido():
     celda_recorrido = []
@@ -357,7 +357,10 @@ def main():
     print("Salidas: "+str(fin[1][0])+" Entradas:"+str(fin[0][0]))
     print ("Iniciando entrenamiento ...")
     nn = neuralCreation(fin[0], fin[1])
-    pyrenn.saveNN(nn,'rnn_create.csv')
+
+    nombre_red = "redNeuronal-{:%Y-%m-%d %H:%M:%S}".format(datetime.now())
+    print nombre_red
+    pyrenn.saveNN(nn,nombre_red+".csv")
     print ("Entrenamiento terminado")
 if __name__ == "__main__":
     main()

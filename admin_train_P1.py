@@ -37,7 +37,7 @@ def parser_time(dato):
     return datoStand
 
 def neuralCreation(datos, results):
-    nn = pyrenn.CreateNN([6,10,10,5,1])
+    nn = pyrenn.CreateNN([6,10,10,5,1],dIn=[0],dIntern=[1],dOut=[0])
     tras = (numpy.array(datos)).transpose(1, 0)
     res = numpy.array(results)
     num_max = len(results)
@@ -211,7 +211,7 @@ def filtrarDatos(datos):
     #print ("Cantida de rutas detectadas bajo 26K = "+ str(cantidad_24))
     return datos
 
-def prepTrain(l_recorridos_filtrados):
+def prepTrain(l_recorridos_filtrados,MAX_RECORRIDOS):
     matriz = []
     salidas = []
 
@@ -225,8 +225,13 @@ def prepTrain(l_recorridos_filtrados):
     reco[3] = lista de listas de puntos latlong. Aqui van todos los puntos de dicho recorrido
 
     '''
+    contador_recorrido = 0
 
     for reco in l_recorridos_filtrados:
+        
+        if(contador_recorrido > MAX_RECORRIDOS):
+            break
+
         #print reco
         dis = 0
 
@@ -282,13 +287,13 @@ def prepTrain(l_recorridos_filtrados):
                 matriz.append(dato)
                 #print (dt.seconds)
                 result = (dt.seconds)
-                print result
+                #print result
                 salidas.append(result)
                 #if(dis > 28000):
                     #print dis
                     #print "DETECTADA RUTA CON SOBRE 28KM DE DISTANCIA"
             cont += 1
-        print "---------- FIN"
+        #print "---------- FIN"
     return [matriz,salidas]
 
 def leer_csv():
@@ -346,13 +351,14 @@ def main():
     print(len(lista_recorridos))
     print ("Lista de recorridos filtrada")
     print (len(l_recorridos_filtrados))
-    print ("Voy a preparar")
-    fin = prepTrain(l_recorridos_filtrados)
+    print ("Preparando datos")
+    fin = prepTrain(l_recorridos_filtrados,1000)
     fin_global = fin[:]
-    print ("Prepare")
     print("Salidas: "+str(fin[1][0])+" Entradas:"+str(fin[0][0]))
+    print ("Iniciando entrenamiento ...")
     nn = neuralCreation(fin[0], fin[1])
     pyrenn.saveNN(nn,'rnn_create.csv')
+    print ("Entrenamiento terminado")
 if __name__ == "__main__":
     main()
     
